@@ -21,14 +21,14 @@ def salvar_dados(lista_livros):
 
 # 1. CREATE
 def adicionar_livro():
-    print("\n--- ➕ ADICIONAR NOVO LIVRO ---")
+    print("\n--- ADICIONAR NOVO LIVRO ---")
     livros = carregar_dados()
 
     id_livro = len(livros) + 1
 
     titulo = input("Nome do Livro (Obrigatório): ").strip()
     while not titulo:
-        print("⚠️ O nome do livro não pode ficar em branco!")
+        print("O nome do livro não pode ficar em branco!")
         titulo = input("Nome do Livro (Obrigatório): ").strip()
 
     autor = input("Autor (ou Enter para pular): ").strip()
@@ -56,9 +56,9 @@ def adicionar_livro():
                 if 1 <= nota_num <= 5:
                     nota = "⭐" * nota_num
                 else:
-                    print("⚠️ Nota fora do limite (1 a 5). Salvo como '---'.")
+                    print("Nota fora do limite (1 a 5). Salvo como '---'.")
             except ValueError:
-                print("⚠️ Entrada inválida. Salvo como '---'.")
+                print("Entrada inválida. Salvo como '---'.")
 
         entrada_resenha = input(
             "Escreva sua Resenha (ou Enter para pular): "
@@ -80,12 +80,12 @@ def adicionar_livro():
 
     livros.append(novo_livro)
     salvar_dados(livros)
-    print(f"✅ '{titulo}' foi adicionado e salvo com sucesso!")
+    print(f"'{titulo}' foi adicionado e salvo com sucesso!")
 
 
 # 2. READ
 def listar_livros():
-    print("\n--- 📚 DIÁRIO DE LEITURAS (BOOKBOXD) ---")
+    print("\n--- DIÁRIO DE LEITURAS (BOOKBOXD) ---")
     livros = carregar_dados()
 
     if not livros:
@@ -93,7 +93,7 @@ def listar_livros():
         return
 
     for livro in livros:
-        print(f"ID: {livro['id']} | 📖 {livro['titulo']} (por {livro['autor']})")
+        print(f"ID: {livro['id']} | {livro['titulo']} (por {livro['autor']})")
         print(f"   Status: [{livro['status']}] | Avaliação: {livro['nota']}")
         print(f"   Resenha: {livro['resenha']}")
         print("-" * 50)
@@ -101,13 +101,13 @@ def listar_livros():
 
 # 3. UPDATE
 def atualizar_livro():
-    print("\n--- 🔄 EDITAR REGISTRO DO LIVRO ---")
+    print("\n--- EDITAR REGISTRO DO LIVRO ---")
     livros = carregar_dados()
 
     try:
         id_busca = int(input("Digite o ID do livro que deseja atualizar: "))
     except ValueError:
-        print("❌ ID inválido.")
+        print(" ID inválido.")
         return
 
     for livro in livros:
@@ -145,7 +145,7 @@ def atualizar_livro():
                         else:
                             livro["nota"] = "---"
                     except ValueError:
-                        print("⚠️ Entrada inválida. Mantendo valor.")
+                        print("Entrada inválida. Mantendo valor.")
 
                 nova_resenha = input(
                     "Nova resenha ou Enter para manter/pular: "
@@ -154,37 +154,37 @@ def atualizar_livro():
                     livro["resenha"] = nova_resenha
 
             salvar_dados(livros)
-            print("✅ Registro de livro updated com sucesso!")
+            print("Registro de livro updated com sucesso!")
             return
 
-    print("❌ Livro não encontrado.")
+    print("Livro não encontrado.")
 
 
 # 4. DELETE
 def remover_livro():
-    print("\n--- 🗑️ REMOVER LIVRO ---")
+    print("\n--- REMOVER LIVRO ---")
     livros = carregar_dados()
 
     try:
         id_busca = int(input("Digite o ID do livro que deseja remover: "))
     except ValueError:
-        print("❌ ID inválido.")
+        print("ID inválido.")
         return
 
     for livro in livros:
         if livro["id"] == id_busca:
             livros.remove(livro)
             salvar_dados(livros)
-            print(f"🗑️ '{livro['titulo']}' foi removido da sua lista.")
+            print(f"'{livro['titulo']}' foi removido da sua lista.")
             return
 
-    print("❌ Livro não encontrado.")
+    print("Livro não encontrado.")
 
 
 def menu():
     while True:
         print("\n==================================")
-        print("    🎬 BOOKBOXD - DIÁRIO DE LIVROS   ")
+        print("    BOOKBOXD - DIÁRIO DE LIVROS   ")
         print("==================================")
         print("1. Criar (Adicionar Livro)")
         print("2. Read (Listar Livros)")
@@ -203,10 +203,10 @@ def menu():
         elif opcao == "4":
             remover_livro()
         elif opcao == "5":
-            print("Saindo do Bookboxd... Até a próxima! 📚")
+            print("Saindo do Bookboxd... Até a próxima!")
             break
         else:
-            print("⚠️ Opção inválida! Escolha um número de 1 a 5.")
+            print("Opção inválida! Escolha um número de 1 a 5.")
 
 
 if __name__ == "__main__":
