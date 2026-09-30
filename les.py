@@ -54,7 +54,7 @@ def adicionar_livro():
             try:
                 nota_num = int(entrada_nota)
                 if 1 <= nota_num <= 5:
-                    nota = "⭐" * nota_num
+                    nota = "*" * nota_num
                 else:
                     print("Nota fora do limite (1 a 5). Salvo como '---'.")
             except ValueError:
@@ -141,7 +141,7 @@ def atualizar_livro():
                     try:
                         num = int(nova_nota)
                         if 1 <= num <= 5:
-                            livro["nota"] = "⭐" * num
+                            livro["nota"] = "*" * num
                         else:
                             livro["nota"] = "---"
                     except ValueError:
