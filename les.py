@@ -1,75 +1,49 @@
 import os
 import pickle
 
-ARQUIVO_DADOS = "bookboxd_oficial.dat"
+ARQUIVO = "bookboxd_dados.dat"
 
 
 def carregar_dados():
-    if not os.path.exists(ARQUIVO_DADOS):
+    if not os.path.exists(ARQUIVO):
         return []
-    with open(ARQUIVO_DADOS, "rb") as arquivo:
-        try:
-            return pickle.load(arquivo)
-        except EOFError:
-            return []
+
+    arquivo = open(ARQUIVO, "rb")
+    dados = pickle.load(arquivo)
+    arquivo.close()
+
+    return dados
 
 
-def salvar_dados(lista_livros):
-    with open(ARQUIVO_DADOS, "wb") as arquivo:
-        pickle.dump(lista_livros, arquivo)
+def salvar_dados(lista):
+    arquivo = open(ARQUIVO, "wb")
+    pickle.dump(lista, arquivo)
+    arquivo.close()
 
 
-# 1. CREATE
 def adicionar_livro():
-    print("\n--- ADICIONAR NOVO LIVRO ---")
+    print("\n--- ADICIONAR LIVRO ---")
     livros = carregar_dados()
 
-    id_livro = len(livros) + 1
+    titulo = input("Nome do Livro: ")
+    autor = input("Autor: ")
+    status = input("Status (Lido, Não Lido ou Próxima Leitura): ")
+    nota = input("Nota (1 a 5 ou Enter para pular): ")
+    resenha = input("Resenha (ou Enter para pular): ")
 
-    titulo = input("Nome do Livro (Obrigatório): ").strip()
-    while not titulo:
-        print("O nome do livro não pode ficar em branco!")
-        titulo = input("Nome do Livro (Obrigatório): ").strip()
-
-    autor = input("Autor (ou Enter para pular): ").strip()
-    if not autor:
+    if titulo == "":
+        titulo = "---"
+    if autor == "":
         autor = "---"
+    if status == "":
+        status = "---"
+    if nota == "":
+        nota = "---"
+    if resenha == "":
+        resenha = "---"
 
-    print("\nEscolha o Status do Livro:")
-    print("1 - Lido")
-    print("2 - Não Lido")
-    print("3 - Próxima Leitura")
-    opcao_status = input("Sua opção (1-3 ou Enter para 'Não Lido'): ").strip()
-
-    status = "Não Lido"
-    nota = "---"
-    resenha = "---"
-
-    if opcao_status == "1":
-        status = "Lido"
-        entrada_nota = (
-            input("Sua Nota (Digite de 1 a 5 ou Enter para pular): ").strip()
-        )
-        if entrada_nota:
-            try:
-                nota_num = int(entrada_nota)
-                if 1 <= nota_num <= 5:
-                    nota = "*" * nota_num
-                else:
-                    print("Nota fora do limite (1 a 5). Salvo como '---'.")
-            except ValueError:
-                print("Entrada inválida. Salvo como '---'.")
-
-        entrada_resenha = input(
-            "Escreva sua Resenha (ou Enter para pular): "
-        ).strip()
-        if entrada_resenha:
-            resenha = entrada_resenha
-
-    elif opcao_status == "3":
-        status = "Próxima Leitura"
-
-    novo_livro = {
+    id_livro = len(livros) + 1
+    novo = {
         "id": id_livro,
         "titulo": titulo,
         "autor": autor,
@@ -78,104 +52,58 @@ def adicionar_livro():
         "resenha": resenha,
     }
 
-    livros.append(novo_livro)
+    livros.append(novo)
     salvar_dados(livros)
-    print(f"'{titulo}' foi adicionado e salvo com sucesso!")
+    print("Livro salvo com sucesso!")
 
 
-# 2. READ
 def listar_livros():
-    print("\n--- DIÁRIO DE LEITURAS (BOOKBOXD) ---")
+    print("\n--- LISTA DE LIVROS ---")
     livros = carregar_dados()
 
-    if not livros:
-        print("Sua lista está vazia. Que tal adicionar um livro?")
+    if len(livros) == 0:
+        print("Nenhum livro cadastrado.")
         return
 
-    for livro in livros:
-        print(f"ID: {livro['id']} | {livro['titulo']} (por {livro['autor']})")
-        print(f"   Status: [{livro['status']}] | Avaliação: {livro['nota']}")
-        print(f"   Resenha: {livro['resenha']}")
-        print("-" * 50)
+    for l in livros:
+        print(f"ID: {l['id']} | Livro: {l['titulo']} | Autor: {l['autor']}")
+        print(f"Status: {l['status']} | Nota: {l['nota']} | Resenha: {l['resenha']}")
+        print("-" * 30)
 
 
-# 3. UPDATE
 def atualizar_livro():
-    print("\n--- EDITAR REGISTRO DO LIVRO ---")
+    print("\n--- EDITAR LIVRO ---")
     livros = carregar_dados()
 
-    try:
-        id_busca = int(input("Digite o ID do livro que deseja atualizar: "))
-    except ValueError:
-        print(" ID inválido.")
-        return
+    id_busca = int(input("Digite o ID do livro que quer editar: "))
 
-    for livro in livros:
-        if livro["id"] == id_busca:
-            print(f"\nLivro encontrado: '{livro['titulo']}'")
-            print(f"Status atual: {livro['status']}")
-
-            print("\nEscolha o NOVO Status:")
-            print("1 - Lido")
-            print("2 - Não Lido")
-            print("3 - Próxima Leitura")
-            print("Aperte Enter direto para MANTER o status atual.")
-            opcao_status = input("Sua opção: ").strip()
-
-            if opcao_status == "1":
-                livro["status"] = "Lido"
-            elif opcao_status == "2":
-                livro["status"] = "Não Lido"
-                livro["nota"] = "---"
-                livro["resenha"] = "---"
-            elif opcao_status == "3":
-                livro["status"] = "Próxima Leitura"
-                livro["nota"] = "---"
-                livro["resenha"] = "---"
-
-            if livro["status"] == "Lido":
-                nova_nota = input(
-                    "Nova nota (1 a 5) ou Enter para manter/pular: "
-                ).strip()
-                if nova_nota:
-                    try:
-                        num = int(nova_nota)
-                        if 1 <= num <= 5:
-                            livro["nota"] = "*" * num
-                        else:
-                            livro["nota"] = "---"
-                    except ValueError:
-                        print("Entrada inválida. Mantendo valor.")
-
-                nova_resenha = input(
-                    "Nova resenha ou Enter para manter/pular: "
-                ).strip()
-                if nova_resenha:
-                    livro["resenha"] = nova_resenha
+    for l in livros:
+        if l["id"] == id_busca:
+            print(f"Editando o livro: {l['titulo']}")
+            l["titulo"] = input("Novo Nome: ")
+            l["autor"] = input("Novo Autor: ")
+            l["status"] = input("Novo Status: ")
+            l["nota"] = input("Nova Nota: ")
+            l["resenha"] = input("Nova Resenha: ")
 
             salvar_dados(livros)
-            print("Registro de livro updated com sucesso!")
+            print("Livro updated!")
             return
 
     print("Livro não encontrado.")
 
 
-# 4. DELETE
 def remover_livro():
     print("\n--- REMOVER LIVRO ---")
     livros = carregar_dados()
 
-    try:
-        id_busca = int(input("Digite o ID do livro que deseja remover: "))
-    except ValueError:
-        print("ID inválido.")
-        return
+    id_busca = int(input("Digite o ID do livro que quer apagar: "))
 
-    for livro in livros:
-        if livro["id"] == id_busca:
-            livros.remove(livro)
+    for l in livros:
+        if l["id"] == id_busca:
+            livros.remove(l)
             salvar_dados(livros)
-            print(f"'{livro['titulo']}' foi removido da sua lista.")
+            print("Livro removido!")
             return
 
     print("Livro não encontrado.")
@@ -183,16 +111,14 @@ def remover_livro():
 
 def menu():
     while True:
-        print("\n==================================")
-        print("    BOOKBOXD - DIÁRIO DE LIVROS   ")
-        print("==================================")
-        print("1. Criar (Adicionar Livro)")
-        print("2. Read (Listar Livros)")
-        print("3. Update (Editar Livro)")
-        print("4. Delete (Remover Livro)")
+        print("\n=== MENU BOOKBOXD ===")
+        print("1. Adicionar")
+        print("2. Listar")
+        print("3. Editar")
+        print("4. Remover")
         print("5. Sair")
 
-        opcao = input("Escolha uma opção (1-5): ").strip()
+        opcao = input("Escolha uma opção: ")
 
         if opcao == "1":
             adicionar_livro()
@@ -203,10 +129,10 @@ def menu():
         elif opcao == "4":
             remover_livro()
         elif opcao == "5":
-            print("Saindo do Bookboxd... Até a próxima!")
+            print("Saindo...")
             break
         else:
-            print("Opção inválida! Escolha um número de 1 a 5.")
+            print("Opção inválida!")
 
 
 if __name__ == "__main__":
