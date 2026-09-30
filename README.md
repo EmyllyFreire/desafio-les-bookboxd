@@ -22,7 +22,7 @@ O sistema funciona como um "Letterboxd para livros", permitindo organizar suas l
 python les.py
 ```
 
-## 💡 Exemplos de Uso
+## Exemplos de Uso
 - **Cadastrar livro lido:** Escolha a opção `1`, digite o nome do livro, mude o status para `1` (Lido) e insira sua nota e resenha.
 - **Pular campos opcionais:** Ao cadastrar um livro que você ainda não leu, basta apertar `Enter` nos campos de Nota e Resenha para que o sistema salve automaticamente com o preenchimento `---`.
 - **Persistência:** Feche o programa e abra-o novamente; ao selecionar a opção `2`, todas as suas entradas continuarão salvas no arquivo binário.
