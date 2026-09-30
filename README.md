@@ -1,8 +1,8 @@
-# 🎬 Bookboxd - Diário Digital de Livros
+# Bookboxd - Diário Digital de Livros
 
 Este projeto é um sistema de gerenciamento e avaliação de leituras desenvolvido como desafio prático para o processo seletivo da **LES (Liga de Engenharia de Software)**.
 
-## 📋 Descrição do Projeto
+## Descrição do Projeto
 O sistema funciona como um "Letterboxd para livros", permitindo organizar suas leituras de forma simples diretamente pelo terminal. O projeto atende a todos os critérios do edital:
 - **Tema Livre:** Catálogo e review de livros.
 - **Múltiplas Informações:** Nome do livro, Autor, Status (Lido, Não Lido, Próxima Leitura), Nota (em estrelas) e Resenha.
@@ -10,10 +10,10 @@ O sistema funciona como um "Letterboxd para livros", permitindo organizar suas l
 - **Operações CRUD:** Criação, leitura, atualização e remoção de registros de livros.
 - **Persistência Binária:** Todos os dados são salvos de forma segura em formato binário utilizando a biblioteca nativa `pickle` do Python.
 
-## 🛠️ Linguagem Utilizada
+## Linguagem Utilizada
 - **Python 3**
 
-## 🚀 Como Executar o Programa
+## Como Executar o Programa
 
 1. Certifique-se de ter o Python instalado no seu computador.
 2. Baixe o arquivo `les.py` deste repositório.
