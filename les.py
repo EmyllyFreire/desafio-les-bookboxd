@@ -48,9 +48,17 @@ while True:
             print("Erro: Digite um número de 1 a 5.")
             nota = input("Nota: ")
 
-        id_livro = len(livros) + 1
-        novo = {"id": id_livro, "titulo": titulo, "autor": autor, "nota": nota}
+        # Nova lógica para evitar IDs duplicados
+        if len(livros) == 0:
+            id_livro = 1
+        else:
+            maior_id = 0
+            for l in livros:
+                if l["id"] > maior_id:
+                    maior_id = l["id"]
+            id_livro = maior_id + 1
 
+        novo = {"id": id_livro, "titulo": titulo, "autor": autor, "nota": nota}
         livros.append(novo)
 
         arq = open(ARQUIVO, "wb")
@@ -175,12 +183,16 @@ while True:
                 for l in livros:
                     if l["id"] == id_busca:
                         livro_encontrado = True
-                        livros.remove(l)
-
-                        arq = open(ARQUIVO, "wb")
-                        pickle.dump(livros, arq)
-                        arq.close()
-                        print("Removido!")
+                        
+                        confirmacao = input(f"Você tem certeza que deseja apagar '{l['titulo']}'? (Digite sim para confirmar): ")
+                        if confirmacao == "sim" or confirmacao == "SIM":
+                            livros.remove(l)
+                            arq = open(ARQUIVO, "wb")
+                            pickle.dump(livros, arq)
+                            arq.close()
+                            print("Removido!")
+                        else:
+                            print("Operação cancelada.")
                         
                 if not livro_encontrado:
                     print("Insira o ID correto.")
