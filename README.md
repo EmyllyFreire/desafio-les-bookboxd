@@ -8,7 +8,7 @@ O sistema funciona como um "Letterboxd para livros", permitindo organizar suas l
 - **Múltiplas Informações:** Nome do livro, Autor e Nota.
 - **Validação Rígida:** Não permite campos em branco. O sistema obriga o preenchimento de todas as informações e valida se os nomes contêm letras e se as notas estão estritamente entre 1 e 5.
 - **Operações CRUD:** Criação, leitura (listagem), atualização e remoção de registros de livros.
-- **Persistência Binária:** Todos os dados são salvos de forma segura em formato binário utilizando a biblioteca nativa `pickle` do Python, gerando o arquivo `dados.dat`.
+- **Persistência Binária:** Todos os dados são salvos de forma segura em formato binário utilizando a biblioteca nativa `pickle` do Python, gerando o arquivo `bookboxd.dat`.
 
 ## Linguagem Utilizada
 - **Python 3**
