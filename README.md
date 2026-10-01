@@ -3,15 +3,24 @@
 Este projeto é um sistema de gerenciamento e avaliação de leituras desenvolvido como desafio prático para o processo seletivo da **LES (Liga de Engenharia de Software)**.
 
 ## Descrição do Projeto
-O sistema funciona como um "Letterboxd para livros", permitindo organizar suas leituras de forma simples diretamente pelo terminal. O projeto atende a todos os critérios do edital:
-- **Tema Livre:** Catálogo e review de livros.
-- **Múltiplas Informações:** Nome do livro, Autor e Nota.
-- **Validação Rígida:** Não permite campos em branco. O sistema obriga o preenchimento de todas as informações e valida se os nomes contêm letras e se as notas estão estritamente entre 1 e 5.
-- **Operações CRUD:** Criação, leitura (listagem), atualização e remoção de registros de livros.
-- **Persistência Binária:** Todos os dados são salvos de forma segura em formato binário utilizando a biblioteca nativa `pickle` do Python, gerando o arquivo `bookboxd.dat`.
+O sistema funciona como um "Letterboxd para livros", permitindo organizar suas leituras de forma simples diretamente pelo terminal. O projeto atende integralmente a todos os critérios do edital.
 
-## Linguagem Utilizada
-- **Python 3**
+## Funcionalidades (CRUD)
+- **Cadastrar Livro:** Permite a inserção de novas leituras no diário.
+- **Listar Livros:** Exibe de forma estruturada todos os registros salvos.
+- **Editar Registro:** Permite alterar as informações de um livro através do ID.
+- **Remover Livro:** Exclui um registro permanentemente do arquivo.
+- **Validação de Dados:** Mecanismo rígido que impede campos vazios, filtra entradas inválidas no ID e garante que os nomes contenham letras e as notas fiquem estritamente entre 1 e 5.
+
+## Dados Cadastrados
+Cada livro armazenado no sistema possui:
+- ID (Gerado de forma automática e sequencial)
+- Nome do Livro
+- Autor
+- Nota de avaliação (Filtro numérico de 1 a 5)
+
+## Tecnologias Utilizadas
+- **Python 3** (Utilizando a biblioteca padrão `pickle` para a persistência em arquivo binário `dados.dat`).
 
 ## Como Executar o Programa
 
@@ -23,7 +32,6 @@ python les.py
 ```
 
 ## Exemplos de Uso
-- **Cadastrar livro:** Selecione a opção `1`, insira o nome do livro, o autor e uma nota de 1 a 5. Se tentar deixar em branco ou digitar dados inválidos (como apenas símbolos ou números no nome), o sistema apontará o erro e exigirá a digitação correta.
-- **Editar ou Remover:** Ao escolher as opções `3` ou `4`, o programa exibe automaticamente a lista de livros disponíveis com seus respectivos IDs antes de solicitar a ação. Caso digite um ID inexistente ou inválido, o sistema avisa e pede para inserir o ID correto em loop, sem interromper o fluxo.
-- **Persistência:** Você pode fechar o terminal e abrir o programa novamente; ao selecionar a opção `2`, todas as suas leituras continuarão salvas perfeitamente através do arquivo binário.
-
+- **Tratamento de Erros:** Ao selecionar a opção `1`, se tentar deixar o nome ou autor em branco, ou inserir uma nota fora do limite, o sistema apontará o erro e exigirá a digitação correta em loop antes de salvar.
+- **Exibição Prévia de IDs:** Ao escolher as opções `3` (Editar) ou `4` (Remover), o programa exibe automaticamente a lista de livros cadastrados com seus respectivos IDs antes de solicitar a ação, facilitando a escolha e validando o ID inserido.
+- **Persistência Binária:** Você pode fechar o terminal e abrir o programa novamente; ao selecionar a opção `2`, todas as suas leituras continuarão salvas perfeitamente através do arquivo de dados.
