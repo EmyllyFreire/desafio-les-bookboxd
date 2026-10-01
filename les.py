@@ -1,7 +1,7 @@
 import os
 import pickle
 
-ARQUIVO = "dados.dat"
+ARQUIVO = "bookboxd.dat"
 
 while True:
     print("=== BOOKBOXD ===\n1-Adicionar livro\n2-Listar livros\n3-Editar livro\n4-Remover livro\n5-Sair")
@@ -16,15 +16,37 @@ while True:
             livros = []
 
         titulo = input("Nome: ")
-        autor = input("Autor: ")
-        nota = input("Nota: ")
+        tem_letra_titulo = False
+        for caractere in titulo:
+            if caractere.isalpha():
+                tem_letra_titulo = True
 
-        if titulo == "":
-            titulo = "---"
-        if autor == "":
-            autor = "---"
-        if nota == "":
-            nota = "---"
+        while titulo == "" or tem_letra_titulo == False:
+            print("Erro: O nome do livro precisa conter letras!")
+            titulo = input("Nome: ")
+            tem_letra_titulo = False
+            for caractere in titulo:
+                if caractere.isalpha():
+                    tem_letra_titulo = True
+
+        autor = input("Autor: ")
+        tem_letra_autor = False
+        for caractere in autor:
+            if caractere.isalpha():
+                tem_letra_autor = True
+        
+        while autor == "" or tem_letra_autor == False:
+            print("Erro: O nome do autor precisa conter letras!")
+            autor = input("Autor: ")
+            tem_letra_autor = False
+            for caractere in autor:
+                if caractere.isalpha():
+                    tem_letra_autor = True
+
+        nota = input("Nota: ")
+        while nota not in ["1", "2", "3", "4", "5"]:
+            print("Erro: Digite um número de 1 a 5.")
+            nota = input("Nota: ")
 
         id_livro = len(livros) + 1
         novo = {"id": id_livro, "titulo": titulo, "autor": autor, "nota": nota}
@@ -60,17 +82,70 @@ while True:
         else:
             livros = []
 
-        id_busca = int(input("ID para editar: "))
-        for l in livros:
-            if l["id"] == id_busca:
-                l["titulo"] = input("Novo Nome: ")
-                l["autor"] = input("Novo Autor: ")
-                l["nota"] = input("Nova Nota: ")
+        if len(livros) == 0:
+            print("Vazio. Nenhum livro cadastrado para editar.")
+        else:
+            print("\n--- Livros Disponíveis ---")
+            for l in livros:
+                print(f"ID: {l['id']} | {l['titulo']}")
+            print("--------------------------")
 
-                arq = open(ARQUIVO, "wb")
-                pickle.dump(livros, arq)
-                arq.close()
-                print("Atualizado!")
+            livro_encontrado = False
+            while not livro_encontrado:
+                entrada_id = input("ID para editar: ")
+                while entrada_id == "" or not entrada_id.isdigit():
+                    print("Erro: O ID precisa ser um número inteiro válido!")
+                    entrada_id = input("ID para editar: ")
+                
+                id_busca = int(entrada_id)
+                
+                for l in livros:
+                    if l["id"] == id_busca:
+                        livro_encontrado = True
+                        
+                        novo_titulo = input("Novo Nome: ")
+                        tem_letra_titulo = False
+                        for caractere in novo_titulo:
+                            if caractere.isalpha():
+                                tem_letra_titulo = True
+
+                        while novo_titulo == "" or tem_letra_titulo == False:
+                            print("Erro: O nome do livro precisa conter letras!")
+                            novo_titulo = input("Novo Nome: ")
+                            tem_letra_titulo = False
+                            for caractere in novo_titulo:
+                                if caractere.isalpha():
+                                    tem_letra_titulo = True
+                        l["titulo"] = novo_titulo
+
+                        novo_autor = input("Novo Autor: ")
+                        tem_letra_autor = False
+                        for caractere in novo_autor:
+                            if caractere.isalpha():
+                                tem_letra_autor = True
+                        
+                        while novo_autor == "" or tem_letra_autor == False:
+                            print("Erro: O nome do autor precisa conter letras!")
+                            novo_autor = input("Novo Autor: ")
+                            tem_letra_autor = False
+                            for caractere in novo_autor:
+                                if caractere.isalpha():
+                                    tem_letra_autor = True
+                        l["autor"] = novo_autor
+
+                        nova_nota = input("Nova Nota: ")
+                        while nova_nota not in ["1", "2", "3", "4", "5"]:
+                            print("Erro: Digite de 1 a 5.")
+                            nova_nota = input("Nova Nota: ")
+                        l["nota"] = nova_nota
+
+                        arq = open(ARQUIVO, "wb")
+                        pickle.dump(livros, arq)
+                        arq.close()
+                        print("Atualizado!")
+                
+                if not livro_encontrado:
+                    print("Insira o ID correto.")
 
     elif opcao == "4":
         if os.path.exists(ARQUIVO):
@@ -80,16 +155,39 @@ while True:
         else:
             livros = []
 
-        id_busca = int(input("ID para apagar: "))
-        for l in livros:
-            if l["id"] == id_busca:
-                livros.remove(l)
+        if len(livros) == 0:
+            print("Vazio. Nenhum livro cadastrado para apagar.")
+        else:
+            print("\n--- Livros Disponíveis ---")
+            for l in livros:
+                print(f"ID: {l['id']} | {l['titulo']}")
+            print("--------------------------")
 
-                arq = open(ARQUIVO, "wb")
-                pickle.dump(livros, arq)
-                arq.close()
-                print("Removido!")
+            livro_encontrado = False
+            while not livro_encontrado:
+                entrada_id = input("ID para apagar: ")
+                while entrada_id == "" or not entrada_id.isdigit():
+                    print("Erro: O ID precisa ser um número inteiro válido!")
+                    entrada_id = input("ID para apagar: ")
+                    
+                id_busca = int(entrada_id)
+                
+                for l in livros:
+                    if l["id"] == id_busca:
+                        livro_encontrado = True
+                        livros.remove(l)
+
+                        arq = open(ARQUIVO, "wb")
+                        pickle.dump(livros, arq)
+                        arq.close()
+                        print("Removido!")
+                        
+                if not livro_encontrado:
+                    print("Insira o ID correto.")
 
     elif opcao == "5":
         print('Saindo...')
         break
+
+    else:
+        print("Opção inválida! Escolha um número de 1 a 5.")
