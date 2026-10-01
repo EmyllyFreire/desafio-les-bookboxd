@@ -20,7 +20,7 @@ Cada livro armazenado no sistema possui:
 - Nota de avaliação (Filtro numérico de 1 a 5)
 
 ## Tecnologias Utilizadas
-- **Python 3** (Utilizando a biblioteca padrão `pickle` para a persistência em arquivo binário `dados.dat`).
+- **Python 3** (Utilizando a biblioteca padrão `pickle` para a persistência em arquivo binário `bookboxd.dat`).
 
 ## Como Executar o Programa
 
